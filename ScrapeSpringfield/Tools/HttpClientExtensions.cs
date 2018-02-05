@@ -1,31 +1,68 @@
-﻿using Polly;
-using ScrapeSpringfield.Models;
+﻿using HtmlAgilityPack;
+using Polly;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ScrapeSpringfield.Tools
 {
     static class HttpClientExtensions
     {
-        public static async Task<string> DownloadAndUnzipIndexAsync(this HttpClient client, string url)
+        const string _titleXPath = "//body//div//div[@id='content_container']//div[@class='main-content']//div[@class='main-content-left']//h1";
+        const string _scriptXPath = "//body//div//div[@id='content_container']//div[@class='main-content']//div[@class='main-content-left']//div//div[@class='scrolling-script-container']";
+        static readonly XName _sitemapSelector = XName.Get("loc", "http://www.sitemaps.org/schemas/sitemap/0.9");
+
+        public static async Task<IList<Uri>> DownloadAndParseSiteMapAsync(this HttpClient client, Uri url)
         {
-            var tmpfile = Path.GetTempFileName();
-            var unzippath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+            XDocument doc = null;
 
             await Policy.Handle<Exception>()
                 .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
                 .ExecuteAsync(async () =>
                 {
-                    using (var streamin = await client.GetStreamAsync(url))
-                    using (var streamout = new FileStream(tmpfile, FileMode.Open, FileAccess.Write))
-                        await streamin.CopyToAsync(streamout);
+                    using (var stream = await client.GetStreamAsync(url))
+                        doc = XDocument.Load(stream, LoadOptions.None);
                 });
 
-            File.Delete(tmpfile);
+            if (doc == null)
+                return new List<Uri>();
 
-            return Path.Combine(unzippath, "master.idx");
+            var links = doc.Descendants(_sitemapSelector)
+                .Select(p => new Uri(p.Value))
+                .ToList();
+
+            return links;
+        }
+        public static async Task DownloadAndParseScript(this HttpClient client, Uri url, string saveLocation)
+        {
+            string content = null;
+
+            await Policy.Handle<Exception>()
+                .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(async () =>
+                {
+                    content = await client.GetStringAsync(url);
+                });
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(content);
+
+            using (var writer = new StreamWriter(saveLocation, false, Encoding.UTF8))
+            {
+                var title = doc.DocumentNode.SelectSingleNode(_titleXPath).InnerText;
+                await writer.WriteLineAsync(title.Trim());
+
+                await writer.WriteLineAsync();
+                await writer.WriteLineAsync();
+
+                var script = doc.DocumentNode.SelectSingleNode(_scriptXPath);
+
+            }
         }
     }
 }

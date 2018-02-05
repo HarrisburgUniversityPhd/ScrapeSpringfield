@@ -13,9 +13,9 @@ namespace ScrapeSpringfield.Models
 
         public Configuration(string[] arrs)
         {
-            var type = "";
-            var start = "1993/01/01";
-            var end = DateTime.UtcNow.AddDays(1).ToString("yyyy/MM/dd");
+            var type = "movie";
+            var start = "0";
+            var end = "z";
             var save = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "springfield");
 
             var options = new OptionSet {

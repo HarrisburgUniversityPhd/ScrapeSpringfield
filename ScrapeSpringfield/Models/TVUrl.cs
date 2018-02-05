@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ScrapeSpringfield.Tools;
+using System;
 
 namespace ScrapeSpringfield.Models
 {
     class TVUrl
     {
         const string _tvPath = "/view_episode_scripts.php?tv-show=";
+        const string _name = "TV-SHOW";
+        const string _episode = "EPISODE";
+
 
         TVUrl(string name, string episode)
         {
@@ -19,11 +19,19 @@ namespace ScrapeSpringfield.Models
         public string Name { get; }
         public string Episode { get; }
 
-        public static TVUrl Parse(Uri url)
+        public static bool TryParse(Uri url, out TVUrl result)
         {
-            var res = new TVUrl(null, null);
+            result = null;
 
-            return res;
+            if (url == null) return false;
+
+            var hash = url.ParseQueryString();
+
+            if (!hash.ContainsKey(_name)) return false;
+            if (!hash.ContainsKey(_episode)) return false;
+
+            result = new TVUrl(hash[_name], hash[_episode]);
+            return true;
         }
     }
 }

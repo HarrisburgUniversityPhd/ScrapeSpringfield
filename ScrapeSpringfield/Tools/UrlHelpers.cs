@@ -8,8 +8,6 @@ namespace ScrapeSpringfield.Tools
     {
         const string _movies = "https://www.springfieldspringfield.co.uk/sitemaps/movies.xml";
         const string _tv = "https://www.springfieldspringfield.co.uk/sitemaps/tv_shows.xml";
-        const string _moviesPath = "/movie_script.php?movie=";
-        const string _tvPath = "/view_episode_scripts.php?tv-show=";
 
         Configuration _config;
 
@@ -42,16 +40,18 @@ namespace ScrapeSpringfield.Tools
             switch (_config.Type)
             {
                 case Models.Type.Movie:
-                    name = MovieUrl.Parse(url).Name;
+                    name = MovieUrl.TryParse(url, out MovieUrl movie) ? movie.Name : null;
                     break;
                 case Models.Type.TV:
-                    name = TVUrl.Parse(url).Name;
+                    name = TVUrl.TryParse(url, out TVUrl tv) ? tv.Name : null;
                     break;
                 default:
                     return false;
             }
 
-            if (name != null)
+            if (name == null)
+                return false;
+            else
             {
                 var b1 = name.StartsWith(_config.Start);
                 var b2 = name.StartsWith(_config.End);
@@ -60,43 +60,22 @@ namespace ScrapeSpringfield.Tools
 
                 return (b1 || b3) && (b2 || b4);
             }
-            else
-                return false;
         }
-
         public string SaveLocation(Uri url)
         {
             if (url == null) throw new ArgumentNullException(nameof(url));
 
+            var defLoc = Path.Combine(_config.SaveLocation, $"{ Guid.NewGuid()}.txt");
+
             switch (_config.Type)
             {
                 case Models.Type.Movie:
-                    var movie = MovieUrl.Parse(url);   
-                    return Path.Combine(_config.SaveLocation, "movie", $"{movie.Name}.txt");
+                    return MovieUrl.TryParse(url, out MovieUrl movie) ? Path.Combine(_config.SaveLocation, "movie", $"{movie.Name}.txt") : defLoc;
                 case Models.Type.TV:
-                    var tv = TVUrl.Parse(url);
-                    return Path.Combine(_config.SaveLocation, "tv", tv.Name, $"{tv.Episode}.txt");
+                    return TVUrl.TryParse(url, out TVUrl tv) ? Path.Combine(_config.SaveLocation, "tv", tv.Name, $"{tv.Episode}.txt") : defLoc;
                 default:
-                    return Path.Combine(_config.SaveLocation, Guid.NewGuid().ToString());
+                    return defLoc;
             }
-        }
-
-        string QueryPath()
-        {
-            if (_config.Type == Models.Type.Movie)
-                return _moviesPath;
-            else if (_config.Type == Models.Type.Movie)
-                return _tvPath;
-            else
-                return null;
-        }
-        string Query(Uri url)
-        {
-            var path = QueryPath();
-            if ((path != null) && (url.PathAndQuery.StartsWith(path)))
-                return url.PathAndQuery.Substring(path.Length);
-            else
-                return null;
         }
     }
 }

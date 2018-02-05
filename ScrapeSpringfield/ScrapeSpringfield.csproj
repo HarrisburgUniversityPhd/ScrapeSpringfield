@@ -59,6 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\HttpClientExtensions.cs" />
+    <Compile Include="Tools\UriExtensions.cs" />
     <Compile Include="Tools\UrlHelpers.cs" />
   </ItemGroup>
   <ItemGroup>

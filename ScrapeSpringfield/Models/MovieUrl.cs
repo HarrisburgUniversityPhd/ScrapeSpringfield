@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ScrapeSpringfield.Tools;
+using System;
 
 namespace ScrapeSpringfield.Models
 {
     class MovieUrl
     {
         const string _moviesPath = "/movie_script.php?movie=";
-
+        const string _name = "MOVIE";
 
         MovieUrl(string name)
         {
@@ -18,11 +15,18 @@ namespace ScrapeSpringfield.Models
 
         public string Name { get; }
 
-        public static MovieUrl Parse(Uri url)
+        public static bool TryParse(Uri url, out MovieUrl result)
         {
-            var res = new MovieUrl(null);
+            result = null;
 
-            return res;
+            if (url == null) return false;
+
+            var hash = url.ParseQueryString();
+
+            if (!hash.ContainsKey(_name)) return false;
+
+            result = new MovieUrl(hash[_name]);
+            return true;
         }
     }
 }

@@ -5,7 +5,6 @@ namespace ScrapeSpringfield.Models
 {
     class TVUrl
     {
-        const string _tvPath = "/view_episode_scripts.php?tv-show=";
         const string _name = "TV-SHOW";
         const string _episode = "EPISODE";
 
@@ -13,7 +12,7 @@ namespace ScrapeSpringfield.Models
         TVUrl(string name, string episode)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Episode = name ?? throw new ArgumentNullException(nameof(episode));
+            Episode = episode ?? throw new ArgumentNullException(nameof(episode));
         }
 
         public string Name { get; }

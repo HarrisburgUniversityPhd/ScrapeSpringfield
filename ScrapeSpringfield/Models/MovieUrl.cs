@@ -5,7 +5,6 @@ namespace ScrapeSpringfield.Models
 {
     class MovieUrl
     {
-        const string _moviesPath = "/movie_script.php?movie=";
         const string _name = "MOVIE";
 
         MovieUrl(string name)

@@ -61,7 +61,12 @@ namespace ScrapeSpringfield.Tools
                 await writer.WriteLineAsync();
 
                 var script = doc.DocumentNode.SelectSingleNode(_scriptXPath);
-
+                foreach (var node in script.ChildNodes.Where(p => p.Name == "#text"))
+                {
+                    var line = node.InnerText?.Trim();
+                    if(!string.IsNullOrWhiteSpace(line))
+                        await writer.WriteLineAsync(line);
+                }
             }
         }
     }

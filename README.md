@@ -2,15 +2,19 @@
 
 Pulls down movie/TV scripts from the site [Springfield !Springfield!][springfield] by filing type for a given range.
 
+# Prereqs
+
+This application was written in [.Net Core 2.0][dotnet] to allow for portability. The runtime will need to be installed based on your OS.
+
 # How to use
 
 1. Open a command prompt
 2. Change to the directory where you downloaded the files
-3. Run `ScrapeSpringfield.exe`
+3. Run `dotnet ScrapeSpringfield.dll`
 
 # Parameters
 
-`ScrapeSpringfield.exe` has 4 optional parameters
+`ScrapeSpringfield.dll` has 4 optional parameters
 
 1. type
   * The type of scripts to download.
@@ -31,9 +35,10 @@ Pulls down movie/TV scripts from the site [Springfield !Springfield!][springfiel
   * Alias: p
 
 ```{shell}
-ScrapeSpringfield.exe
+dotnet ScrapeSpringfield.dll
 ```
 
 ---------
 
 [springfield]: https://www.springfieldspringfield.co.uk/
+[dotnet]: https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-download.md

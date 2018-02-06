@@ -33,6 +33,7 @@ namespace ScrapeSpringfield.Tools
                 return new List<Uri>();
 
             var links = doc.Descendants(_sitemapSelector)
+                .OrderBy(p =>p.Value)
                 .Select(p => new Uri(p.Value))
                 .ToList();
 

@@ -3,12 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrapeSpringfield", "ScrapeSpringfield\ScrapeSpringfield.csproj", "{E132A5EC-7149-41D9-BCCD-CD192B611FCA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{60DE2CEA-8650-44A1-AFA4-34266C0AFBC2}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quality", "Quality", "{E4FA802C-AFAA-4F95-858A-9251056E4A34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrapeSpringfield.Tests", "ScrapeSpringfield.Tests\ScrapeSpringfield.Tests.csproj", "{14284F89-8C52-447E-9A11-DFE1B427E6C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrapeSpringfield", "ScrapeSpringfield\ScrapeSpringfield.csproj", "{A69FEB4D-02A3-4154-BB71-BE80DB0F1136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +20,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E132A5EC-7149-41D9-BCCD-CD192B611FCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E132A5EC-7149-41D9-BCCD-CD192B611FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E132A5EC-7149-41D9-BCCD-CD192B611FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E132A5EC-7149-41D9-BCCD-CD192B611FCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14284F89-8C52-447E-9A11-DFE1B427E6C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14284F89-8C52-447E-9A11-DFE1B427E6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14284F89-8C52-447E-9A11-DFE1B427E6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14284F89-8C52-447E-9A11-DFE1B427E6C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A69FEB4D-02A3-4154-BB71-BE80DB0F1136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A69FEB4D-02A3-4154-BB71-BE80DB0F1136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A69FEB4D-02A3-4154-BB71-BE80DB0F1136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A69FEB4D-02A3-4154-BB71-BE80DB0F1136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14284F89-8C52-447E-9A11-DFE1B427E6C3} = {E4FA802C-AFAA-4F95-858A-9251056E4A34}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A748481E-4D77-4DC8-AE78-269427379917}

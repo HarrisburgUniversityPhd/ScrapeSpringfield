@@ -8,6 +8,7 @@ namespace ScrapeSpringfield.Tools
     {
         const string _movies = "https://www.springfieldspringfield.co.uk/sitemaps/movies.xml";
         const string _tv = "https://www.springfieldspringfield.co.uk/sitemaps/tv_shows.xml";
+        const string _root = "www.springfieldspringfield.co.uk";
 
         Configuration _config;
 
@@ -35,6 +36,9 @@ namespace ScrapeSpringfield.Tools
         public bool ShouldFollow(Uri url)
         {
             if (url == null) throw new ArgumentNullException(nameof(url));
+
+            if (url.Host != _root)
+                return false;
 
             string name;
             switch (_config.Type)

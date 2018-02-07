@@ -30,12 +30,12 @@ namespace ScrapeSpringfield.Jobs
 
                 foreach (var link in links.Where(p => urlhelpres.ShouldFollow(p)))
                 {
-                    Console.WriteLine($"Downloading script {link}");
+                    Console.WriteLine($"Downloading script {link.PathAndQuery}");
                     var script = await client.DownloadScriptAsync(link);
 
                     if (script != null)
                     {
-                        Console.WriteLine($"Parsing script {link}");
+                        Console.WriteLine($"Parsing script {link.PathAndQuery}");
                         await script.ParseScriptAsync(urlhelpres.SaveLocation(link));
                     }
                 }

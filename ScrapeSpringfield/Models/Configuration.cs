@@ -13,7 +13,7 @@ namespace ScrapeSpringfield.Models
 
         public Configuration(string[] arrs)
         {
-            var type = "tv";
+            var type = "movie";
             var start = "0";
             var end = "z";
             var save = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "springfield");

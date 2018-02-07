@@ -33,7 +33,7 @@ namespace ScrapeSpringfield.Tools
                 return new List<Uri>();
 
             var links = doc.Descendants(_sitemapSelector)
-                .OrderBy(p =>p.Value)
+                .OrderBy(p => p.Value)
                 .Select(p => new Uri(p.Value))
                 .ToList();
 
@@ -53,6 +53,10 @@ namespace ScrapeSpringfield.Tools
             var doc = new HtmlDocument();
             doc.LoadHtml(content);
 
+            var dir = Path.GetDirectoryName(saveLocation);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             using (var writer = new StreamWriter(saveLocation, false, Encoding.UTF8))
             {
                 var title = doc.DocumentNode.SelectSingleNode(_titleXPath).InnerText;
@@ -65,7 +69,7 @@ namespace ScrapeSpringfield.Tools
                 foreach (var node in script.ChildNodes.Where(p => p.Name == "#text"))
                 {
                     var line = node.InnerText?.Trim();
-                    if(!string.IsNullOrWhiteSpace(line))
+                    if (!string.IsNullOrWhiteSpace(line))
                         await writer.WriteLineAsync(line);
                 }
             }

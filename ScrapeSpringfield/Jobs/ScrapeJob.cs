@@ -1,7 +1,6 @@
 ﻿using ScrapeSpringfield.Models;
 using ScrapeSpringfield.Tools;
 using System;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -23,8 +22,6 @@ namespace ScrapeSpringfield.Jobs
 
             var urlhelpres = new UrlHelpers(_config);
 
-            EnsureSaveLocation();
-
             using (var client = new HttpClient())
             {
                 var sitemap = urlhelpres.SiteMap;
@@ -37,14 +34,6 @@ namespace ScrapeSpringfield.Jobs
                     await client.DownloadAndParseScript(link, urlhelpres.SaveLocation(link));
                 }
             }
-        }
-
-        void EnsureSaveLocation()
-        {
-            var path = Path.Combine(_config.SaveLocation, _config.Type.ToString());
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
         }
     }
 }

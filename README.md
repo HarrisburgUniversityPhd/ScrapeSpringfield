@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1168077.svg)](https://doi.org/10.5281/zenodo.1168077)
+
 # Introduction
 
 Pulls down movie/TV scripts from the site [Springfield !Springfield!][springfield] by filing type for a given range.
